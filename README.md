@@ -1,0 +1,2 @@
+# consul
+explore consul
