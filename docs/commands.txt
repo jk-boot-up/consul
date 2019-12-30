@@ -1,5 +1,6 @@
 # start consul agent in dev mode
 
-consul agent -dev -node jk.consul.agent
+# don't us . in node/host name in osx
+consul agent -dev -node jk-consul-agent
 
 #ui => http://localhost:8500/ui
