@@ -1,6 +1,57 @@
 # start consul agent in dev mode
 
+consul agent dev
+
 # don't us . in node/host name in osx
 consul agent -dev -node jk-consul-agent
 
+curl localhost:8500/v1/catalog/nodes
+
+                                [
+                                    {
+                                        "ID": "88376e30-cb2d-3717-92e6-4c80d452fda8",
+                                        "Node": "jk-consul-agent",
+                                        "Address": "127.0.0.1",
+                                        "Datacenter": "dc1",
+                                        "TaggedAddresses": {
+                                            "lan": "127.0.0.1",
+                                            "wan": "127.0.0.1"
+                                        },
+                                        "Meta": {
+                                            "consul-network-segment": ""
+                                        },
+                                        "CreateIndex": 9,
+                                        "ModifyIndex": 10
+                                    }
+                                ]
+
+
 #ui => http://localhost:8500/ui
+
+dig @127.0.0.1 -p 8600 jk-consul-agent
+
+                                ; <<>> DiG 9.10.6 <<>> @127.0.0.1 -p 8600 jk-consul-agent
+                                ; (1 server found)
+                                ;; global options: +cmd
+                                ;; Got answer:
+                                ;; ->>HEADER<<- opcode: QUERY, status: SERVFAIL, id: 39662
+                                ;; flags: qr rd; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 0
+                                ;; WARNING: recursion requested but not available
+
+                                ;; QUESTION SECTION:
+                                ;jk-consul-agent.		IN	A
+
+                                ;; Query time: 0 msec
+                                ;; SERVER: 127.0.0.1#8600(127.0.0.1)
+                                ;; WHEN: Mon Dec 30 15:08:13 IST 2019
+                                ;; MSG SIZE  rcvd: 33
+
+consul leave
+                                Graceful leave complete
+
+                                2019/12/30 15:10:08 [INFO] agent: Stopping DNS server 127.0.0.1:8600 (tcp)
+                                2019/12/30 15:10:08 [INFO] agent: Stopping DNS server 127.0.0.1:8600 (udp)
+                                2019/12/30 15:10:08 [INFO] agent: Stopping HTTP server 127.0.0.1:8500 (tcp)
+#Defining a Service
+
+mkdir consul.d
