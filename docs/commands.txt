@@ -55,3 +55,59 @@ consul leave
 #Defining a Service
 
 mkdir consul.d
+
+consul agent -dev -enable-script-checks -config-dir=/etc/consul.d
+
+# NAME.service.consul, where NAME is the name you used to register the service
+# -domain consul
+dig @127.0.0.1 -p 8600 service11.service.consul
+
+dig @127.0.0.1 -p 8600 service11.service.consul SRV
+
+# <tag>.<service name>.service.consul
+dig @127.0.0.1 -p 8600 spring-boot-service-local.service11.service.consul
+
+curl http://localhost:8500/v1/catalog/service/service11
+                                [
+                                    {
+                                        "ID": "20031c70-2554-ae37-0a93-831f674e766b",
+                                        "Node": "HYD-KONDURJA-M",
+                                        "Address": "127.0.0.1",
+                                        "Datacenter": "dc1",
+                                        "TaggedAddresses": {
+                                            "lan": "127.0.0.1",
+                                            "wan": "127.0.0.1"
+                                        },
+                                        "NodeMeta": {
+                                            "consul-network-segment": ""
+                                        },
+                                        "ServiceKind": "",
+                                        "ServiceID": "service11",
+                                        "ServiceName": "service11",
+                                        "ServiceTags": [
+                                            "spring-boot-service-local"
+                                        ],
+                                        "ServiceAddress": "",
+                                        "ServiceWeights": {
+                                            "Passing": 1,
+                                            "Warning": 1
+                                        },
+                                        "ServiceMeta": {},
+                                        "ServicePort": 9090,
+                                        "ServiceEnableTagOverride": false,
+                                        "ServiceProxyDestination": "",
+                                        "ServiceProxy": {},
+                                        "ServiceConnect": {},
+                                        "CreateIndex": 10,
+                                        "ModifyIndex": 10
+                                    }
+                                ]
+
+curl 'http://localhost:8500/v1/health/service/service11?passing'
+
+consul reload
+
+
+
+
+
