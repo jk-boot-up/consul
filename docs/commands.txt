@@ -107,6 +107,28 @@ curl 'http://localhost:8500/v1/health/service/service11?passing'
 
 consul reload
 
+dig @127.0.0.1 -p 8600 service11.service.consul
+
+consul kv put service11/config/conns/min 10
+
+consul kv put service11/config/conns/max 100
+
+consul kv put -flags=42 service11/config/users/jk jk1234
+
+#consul kv put -acquire -session="adf4238a-882b-9ddc-4a9d-5b6758e4159e" service11/config/tasks/leader
+
+consul kv get -recurse
+                        service11/config/conns/max:100
+                        service11/config/conns/min:10
+                        service11/config/tasks/leader/jk:true
+                        service11/config/users/jk:jk1234
+
+consul-template -template "my-template.tpl:my-template-output.txt"
+
+
+
+
+
 
 
 
